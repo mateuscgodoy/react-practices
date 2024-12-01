@@ -5,9 +5,9 @@ type FactionFormProps = {
 };
 
 export function FactionForm({ faction }: FactionFormProps) {
-  const races = faction.members.map((member, i) => {
+  const races = faction.members.map((member) => {
     return (
-      <section key={i}>
+      <section key={member.race}>
         <input type='radio' name='race' id={member.race} />
         <label htmlFor={member.race}>{member.race}</label>
       </section>
@@ -27,10 +27,10 @@ export function FactionForm({ faction }: FactionFormProps) {
     []
   );
 
-  const classes = classData.map((data, i) => {
+  const classes = classData.map((data) => {
     return (
-      <section key={i}>
-        <input type='radio' name='class' id={data.name} />
+      <section key={data.name}>
+        <input type='radio' name='class' id={`${faction.name}-${data.name}`} />
         <label htmlFor={data.name}>{data.name}</label>
       </section>
     );

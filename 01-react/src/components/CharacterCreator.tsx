@@ -2,6 +2,10 @@ import { WOW_DATA } from '../lib/wow-data';
 import { FactionForm } from './FactionForm';
 
 export function CharacterCreator() {
+  const factionForms = WOW_DATA.map((fact) => (
+    <FactionForm key={fact.name} faction={fact} />
+  ));
+
   return (
     <>
       <h3>Create your new Character</h3>
@@ -19,9 +23,8 @@ export function CharacterCreator() {
             <label htmlFor='horde'>Horde!!</label>
           </section>
         </fieldset>
-        {WOW_DATA.map((fact, i) => (
-          <FactionForm key={i} faction={fact} />
-        ))}
+
+        {factionForms}
 
         <fieldset>
           <legend>Enter your Name and Body Type:</legend>
