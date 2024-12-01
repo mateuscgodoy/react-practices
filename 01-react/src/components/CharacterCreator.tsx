@@ -5,8 +5,16 @@ import { FactionForm } from './FactionForm';
 export function CharacterCreator() {
   const randomStartFaction = Math.floor(Math.random() * WOW_DATA.length);
   const [faction, setFaction] = useState(WOW_DATA[randomStartFaction].name);
+  const [race, setRace] = useState('');
+
   let classData: WoWClass[] = [];
+
+  const handleRaceChange = (race: string) => {
+    setRace(race);
+  };
+
   const factionForms = WOW_DATA.map((fact) => {
+    // Uniquely extract each available class
     classData = fact.members.reduce((acc: WoWClass[], cur) => {
       cur.classes.forEach((wowClass) => {
         if (!acc.some((wClass) => wClass.name === wowClass.name)) {
@@ -21,6 +29,7 @@ export function CharacterCreator() {
         key={fact.name}
         faction={fact}
         active={faction === fact.name}
+        onRaceChange={handleRaceChange}
       />
     );
   });
@@ -39,8 +48,6 @@ export function CharacterCreator() {
       </section>
     );
   });
-
-  // Uniquely extract each available class
 
   const classes = classData.map((data) => {
     return (
@@ -62,6 +69,7 @@ export function CharacterCreator() {
         </fieldset>
 
         {factionForms}
+        <p>{race.length ? `You've chosen: ${race}` : ''}</p>
 
         <fieldset>
           <legend>Choose your class: </legend>
