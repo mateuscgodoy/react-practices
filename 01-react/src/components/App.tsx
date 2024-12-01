@@ -15,7 +15,6 @@ function App() {
           tabs={[
             { name: 'Character Creation', component: <CharacterCreator /> },
             { name: 'All Options', component: <OptionsView /> },
-            { name: 'Testing', component: <OptionsView /> },
           ]}
         />
       </main>

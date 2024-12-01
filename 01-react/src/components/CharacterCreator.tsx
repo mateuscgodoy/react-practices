@@ -6,11 +6,16 @@ export function CharacterCreator() {
   const randomStartFaction = Math.floor(Math.random() * WOW_DATA.length);
   const [faction, setFaction] = useState(WOW_DATA[randomStartFaction].name);
   const [race, setRace] = useState('');
+  const [validClasses, setValidClasses] = useState<WoWClass[]>([]);
 
   let classData: WoWClass[] = [];
 
   const handleRaceChange = (race: string) => {
     setRace(race);
+    const nextClasses = WOW_DATA.find(
+      (el) => el.name === faction
+    )!.members.filter((el) => el.race === race)[0].classes;
+    setValidClasses(nextClasses);
   };
 
   const factionForms = WOW_DATA.map((fact) => {
@@ -41,7 +46,11 @@ export function CharacterCreator() {
           type='radio'
           name='faction'
           id={data.name}
-          onChange={() => setFaction(data.name)}
+          onChange={() => {
+            setFaction(data.name);
+            setValidClasses([]);
+            setRace('');
+          }}
           checked={faction === data.name}
         />
         <label htmlFor={data.name}>{data.name}!!</label>
@@ -52,7 +61,12 @@ export function CharacterCreator() {
   const classes = classData.map((data) => {
     return (
       <section key={data.name}>
-        <input type='radio' name='class' id={data.name} />
+        <input
+          type='radio'
+          name='class'
+          id={data.name}
+          disabled={!validClasses.some((el) => el.name === data.name)}
+        />
         <label htmlFor={data.name}>{data.name}</label>
       </section>
     );
