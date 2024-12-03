@@ -32,47 +32,58 @@ const mage = createWowClass('Mage', '🪄', '#69CCF0');
 const warlock = createWowClass('Warlock', '😈', '#9482C9');
 const priest = createWowClass('Priest', '🙏', '#FFFFFF');
 
-export const WOW_DATA: Faction[] = [
-  {
-    name: 'Alliance',
-    members: [
-      {
-        race: 'Human',
-        classes: [warrior, mage, priest, warlock, rogue, paladin],
-      },
-      {
-        race: 'Dwarf',
-        classes: [warrior, priest, hunter, rogue, paladin],
-      },
-      {
-        race: 'Gnome',
-        classes: [warrior, mage, warlock, rogue],
-      },
-      {
-        race: 'Night Elf',
-        classes: [warrior, hunter, rogue, druid, priest],
-      },
-    ],
-  },
-  {
-    name: 'Horde',
-    members: [
-      {
-        race: 'Orc',
-        classes: [warrior, warlock, rogue, shaman, hunter],
-      },
-      {
-        race: 'Troll',
-        classes: [warrior, mage, rogue, shaman, hunter, priest],
-      },
-      {
-        race: 'Tauren',
-        classes: [warrior, shaman, hunter, druid],
-      },
-      {
-        race: 'Undead',
-        classes: [warrior, mage, rogue, priest, warlock],
-      },
-    ],
-  },
+export const WOW_CLASSES: WoWClass[] = [
+  warlock,
+  warrior,
+  paladin,
+  hunter,
+  shaman,
+  druid,
+  mage,
+  rogue,
+  priest,
 ];
+
+export const ALLIANCE: Faction = {
+  name: 'Alliance',
+  members: [
+    {
+      race: 'Human',
+      classes: [warrior, mage, priest, warlock, rogue, paladin],
+    },
+    {
+      race: 'Dwarf',
+      classes: [warrior, priest, hunter, rogue, paladin],
+    },
+    {
+      race: 'Gnome',
+      classes: [warrior, mage, warlock, rogue],
+    },
+    {
+      race: 'Night Elf',
+      classes: [warrior, hunter, rogue, druid, priest],
+    },
+  ],
+};
+
+export const HORDE: Faction = {
+  name: 'Horde',
+  members: [
+    {
+      race: 'Orc',
+      classes: [warrior, warlock, rogue, shaman, hunter],
+    },
+    {
+      race: 'Troll',
+      classes: [warrior, mage, rogue, shaman, hunter, priest],
+    },
+    {
+      race: 'Tauren',
+      classes: [warrior, shaman, hunter, druid],
+    },
+    {
+      race: 'Undead',
+      classes: [warrior, mage, rogue, priest, warlock],
+    },
+  ],
+};
