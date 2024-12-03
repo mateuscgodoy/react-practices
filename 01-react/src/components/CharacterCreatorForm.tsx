@@ -23,6 +23,7 @@ export function CharacterCreatorForm() {
       label: el,
       onChange: (val) => {
         setCharForm({ ...initialState, faction: val });
+        setValidClasses([]);
       },
       name: 'faction',
       current: charForm.faction,
@@ -35,6 +36,11 @@ export function CharacterCreatorForm() {
     label: el.race,
     onChange: (val) => {
       setCharForm({ ...charForm, race: val });
+      let nextRace = ALLIANCE.members.find((member) => member.race === val);
+      if (!nextRace)
+        nextRace = HORDE.members.find((member) => member.race === val);
+
+      setValidClasses([...nextRace!.classes]);
     },
     current: charForm.race,
     disabled: charForm.faction !== ALLIANCE.name,
@@ -49,7 +55,7 @@ export function CharacterCreatorForm() {
       let nextRace = ALLIANCE.members.find((member) => member.race === val);
       if (!nextRace)
         nextRace = HORDE.members.find((member) => member.race === val);
-      console.log(nextRace);
+
       setValidClasses([...nextRace!.classes]);
     },
     current: charForm.race,
@@ -58,17 +64,18 @@ export function CharacterCreatorForm() {
 
   const uniqueClasses = WOW_CLASSES.map((el) => el.name);
 
+  const shouldDisableClass = (className: string): boolean => {
+    const result = validClasses.findIndex((el) => el.name === className);
+    return result === -1;
+  };
   const classData: RadioSectionType[] = uniqueClasses.map((el) => ({
     id: el,
     name: 'class',
     label: el,
     onChange: (val: string) => setCharForm({ ...charForm, wowClass: val }),
     current: charForm.wowClass,
-    disabled:
-      validClasses.length === 0 ||
-      validClasses.some((wowClass) => wowClass.name !== el),
+    disabled: shouldDisableClass(el),
   }));
-  console.log(classData);
 
   return (
     <form action='' method='get'>
