@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ALLIANCE, HORDE, WOW_CLASSES, WoWClass } from '../lib/wow-data';
+import { ALLIANCE, HORDE, WOW_CLASSES } from '../lib/wow-data';
 import { CharFormState } from '../lib/charFormReducer';
 import { SingleOptionFieldset } from './SingleOptionFieldset';
 import { RadioSectionType } from './RadioSection';
@@ -16,7 +16,6 @@ export function CharacterCreatorForm() {
   };
 
   const [charForm, setCharForm] = useState(initialState);
-  const [validClasses, setValidClasses] = useState<WoWClass[]>([]);
 
   const factionFormData: RadioSectionType[] = [ALLIANCE.name, HORDE.name].map(
     (el) => ({
@@ -24,7 +23,6 @@ export function CharacterCreatorForm() {
       label: el,
       onChange: (val) => {
         setCharForm({ ...initialState, faction: val });
-        setValidClasses([]);
       },
       name: 'faction',
       current: charForm.faction,
@@ -36,12 +34,10 @@ export function CharacterCreatorForm() {
     id: el.race,
     label: el.race,
     onChange: (val) => {
-      setCharForm({ ...charForm, race: val });
+      setCharForm({ ...charForm, race: val, wowClass: '' });
       let nextRace = ALLIANCE.members.find((member) => member.race === val);
       if (!nextRace)
         nextRace = HORDE.members.find((member) => member.race === val);
-
-      setValidClasses([...nextRace!.classes]);
     },
     current: charForm.race,
     disabled: charForm.faction !== ALLIANCE.name,
@@ -52,12 +48,10 @@ export function CharacterCreatorForm() {
     id: el.race,
     label: el.race,
     onChange: (val) => {
-      setCharForm({ ...charForm, race: val });
+      setCharForm({ ...charForm, race: val, wowClass: '' });
       let nextRace = ALLIANCE.members.find((member) => member.race === val);
       if (!nextRace)
         nextRace = HORDE.members.find((member) => member.race === val);
-
-      setValidClasses([...nextRace!.classes]);
     },
     current: charForm.race,
     disabled: charForm.faction !== HORDE.name,
@@ -66,8 +60,14 @@ export function CharacterCreatorForm() {
   const uniqueClasses = WOW_CLASSES.map((el) => el.name);
 
   const shouldDisableClass = (className: string): boolean => {
-    const result = validClasses.findIndex((el) => el.name === className);
-    console.log(charForm.race);
+    const currentFaction =
+      charForm.faction === ALLIANCE.name ? ALLIANCE : HORDE;
+    const currentRace = currentFaction.members.find(
+      (member) => member.race === charForm.race
+    );
+    const result = currentRace?.classes.findIndex(
+      (el) => el.name === className
+    );
     return charForm.race === '' || result === -1;
   };
   const classData: RadioSectionType[] = uniqueClasses.map((el) => ({
