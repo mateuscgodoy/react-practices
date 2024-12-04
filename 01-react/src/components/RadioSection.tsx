@@ -16,7 +16,6 @@ export function RadioSection({
   onChange,
   current,
 }: RadioSectionType) {
-  console.log('id', id, 'checked', !!current && current === id);
   return (
     <section>
       <input
@@ -24,8 +23,9 @@ export function RadioSection({
         name={name}
         id={id}
         disabled={disabled !== undefined ? disabled : false}
-        defaultChecked={Boolean(current) && current === id}
-        onInput={() => {
+        checked={current === id}
+        onChange={(e) => {
+          e.target.checked = current === id;
           onChange(id);
         }}
       />
