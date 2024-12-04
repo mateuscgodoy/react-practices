@@ -2,7 +2,7 @@ export type RadioSectionType = {
   name: string;
   id: string;
   label: string;
-  current?: string;
+  current: string;
   disabled?: boolean;
   checked?: boolean;
   onChange: (value: string) => void;

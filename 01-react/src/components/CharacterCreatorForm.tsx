@@ -79,6 +79,15 @@ export function CharacterCreatorForm() {
     disabled: shouldDisableClass(el),
   }));
 
+  const bodyTypeData: RadioSectionType[] = ['Body Type 1', 'Body Type 2'].map(
+    (el) => ({
+      id: el,
+      label: el,
+      name: el,
+      current: charForm.bodyType,
+      onChange: (val: string) => setCharForm({ ...charForm, bodyType: val }),
+    })
+  );
   return (
     <form action='' method='get'>
       <SingleOptionFieldset legend='For the...' data={factionFormData} />
@@ -91,8 +100,27 @@ export function CharacterCreatorForm() {
         data={hordeRaceData}
       />
       <SingleOptionFieldset legend={`Classes:`} data={classData} />
-      <RandomButton handleClick={setCharForm} />
-      <button type='submit'>Create</button>
+      <SingleOptionFieldset legend='Character Details:' data={bodyTypeData}>
+        <section>
+          <label htmlFor='char-name'>Name:</label>
+          <input
+            type='text'
+            id='char-name'
+            required
+            value={charForm.name}
+            onInput={(e) => {
+              setCharForm({
+                ...charForm,
+                name: (e.target as HTMLInputElement).value,
+              });
+            }}
+          />
+        </section>
+      </SingleOptionFieldset>
+      <section>
+        <RandomButton handleClick={setCharForm} />
+        <button type='submit'>Create</button>
+      </section>
     </form>
   );
 }
