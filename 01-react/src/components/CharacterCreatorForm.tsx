@@ -3,6 +3,7 @@ import { ALLIANCE, HORDE, WOW_CLASSES, WoWClass } from '../lib/wow-data';
 import { CharFormState } from '../lib/charFormReducer';
 import { SingleOptionFieldset } from './SingleOptionFieldset';
 import { RadioSectionType } from './RadioSection';
+import { RandomButton } from './RandomButtom';
 
 export function CharacterCreatorForm() {
   const randomStartFaction = Math.floor(Math.random() * 2);
@@ -66,7 +67,8 @@ export function CharacterCreatorForm() {
 
   const shouldDisableClass = (className: string): boolean => {
     const result = validClasses.findIndex((el) => el.name === className);
-    return result === -1;
+    console.log(charForm.race);
+    return charForm.race === '' || result === -1;
   };
   const classData: RadioSectionType[] = uniqueClasses.map((el) => ({
     id: el,
@@ -89,6 +91,8 @@ export function CharacterCreatorForm() {
         data={hordeRaceData}
       />
       <SingleOptionFieldset legend={`Classes:`} data={classData} />
+      <RandomButton handleClick={setCharForm} />
+      <button type='submit'>Create</button>
     </form>
   );
 }
